@@ -442,11 +442,11 @@ return view.extend({
 
             const has = (name) => this._isPackageInstalledFromList(installed, name);
 
-            if (has('e2fsprogs') && has('kmod-fs-ext2')) {
+            if (has('e2fsprogs') && has('kmod-fs-ext4')) {
                 fsSet.add('ext2');
             }
             
-            if (has('e2fsprogs') && has('kmod-fs-ext3')) {
+            if (has('e2fsprogs') && has('kmod-fs-ext4')) {
                 fsSet.add('ext3');
             }
             
