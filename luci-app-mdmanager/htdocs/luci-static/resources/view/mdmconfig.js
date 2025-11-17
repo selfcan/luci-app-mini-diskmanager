@@ -134,6 +134,13 @@ return view.extend({
                 ]
             });
         }, this);
+        
+        o = s.taboption('packages', form.DummyValue, '_dummy');
+        o.rawhtml = true;
+        o.default =
+            '<div class="cbi-section-descr">' +
+            _('Packages required to support various file systems.') +
+            '</div>';
 
         o = s.taboption('packages', form.Button, '_check_linux_fs_packages', _('Check Linux filesystem packages'));
         o.inputtitle = _('Linux filesystems');
@@ -166,11 +173,12 @@ return view.extend({
                 ],
                 'NTFS': [
                     { name: 'ntfs-3g', label: 'ntfs-3g' },
-                    { name: 'kmod-fs-ntfs3', label: 'kmod-fs-ntfs3' }
+                    { name: 'kmod-fs-ntfs3', label: 'kmod-fs-ntfs3' },
+                    { name: 'ntfs-3g-utils', label: 'ntfs-3g-utils' }
                 ],
                 'exFAT': [
                     { name: 'exfat-mkfs', label: 'exfat-mkfs' },
-                    { name: 'kmod-fs-exfat', label: 'kmod-fs-exfat' }
+                    { name: 'kmod-fs-exfat', label: 'kmod-fs-exfat' }               
                 ]
             });
         }, this);

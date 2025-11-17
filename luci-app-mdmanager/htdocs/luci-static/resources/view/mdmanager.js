@@ -442,25 +442,31 @@ return view.extend({
 
             const has = (name) => this._isPackageInstalledFromList(installed, name);
 
-            if (has('e2fsprogs') || has('kmod-fs-ext4') || has('kmod-fs-ext3') || has('kmod-fs-ext2')) {
-                if (has('kmod-fs-ext4') || has('e2fsprogs')) fsSet.add('ext4');
-                if (has('kmod-fs-ext3') || has('e2fsprogs')) fsSet.add('ext3');
-                if (has('kmod-fs-ext2') || has('e2fsprogs')) fsSet.add('ext2');
+            if (has('e2fsprogs') && has('kmod-fs-ext2')) {
+                fsSet.add('ext2');
+            }
+            
+            if (has('e2fsprogs') && has('kmod-fs-ext3')) {
+                fsSet.add('ext3');
+            }
+            
+            if (has('e2fsprogs') && has('kmod-fs-ext4')) {
+                fsSet.add('ext4');
             }
 
-            if (has('kmod-fs-f2fs') || has('mkf2fs') || has('f2fs-tools') || has('f2fsck')) {
+            if (has('kmod-fs-f2fs') && has('mkf2fs') && has('f2fs-tools') && has('f2fsck')) {
                 fsSet.add('f2fs');
             }
 
-            if (has('dosfstools') || has('kmod-fs-vfat')) {
+            if (has('dosfstools') && has('kmod-fs-vfat')) {
                 fsSet.add('vfat');
             }
 
-            if (has('ntfs-3g') || has('kmod-fs-ntfs3')) {
+            if (has('ntfs-3g') && has('kmod-fs-ntfs3') && has('ntfs-3g-utils')) {
                 fsSet.add('ntfs');
             }
 
-            if (has('exfat-mkfs') || has('kmod-fs-exfat') || has('exfat-utils')) {
+            if (has('exfat-mkfs') && has('kmod-fs-exfat') && has('exfat-utils')) {
                 fsSet.add('exfat');
             }
 
@@ -1810,6 +1816,10 @@ return view.extend({
                 let labelCell = partRef.label || '-';
                 let sizeCell = self.formatSize((partedInfo && partedInfo.size) ? partedInfo.size : partRef.size);
 
+                if (sizeCell) {
+                    sizeCell = sizeCell.replace(' TB', ' TiB').replace(' GB', ' GiB').replace(' MB', ' MiB').replace(' KB', ' KiB');
+                }
+
                 let usedCell = '-';
                 let unusedCell = '-';
                 if (partRef.used !== undefined && partRef.available !== undefined) {
@@ -1877,6 +1887,10 @@ return view.extend({
                         let logMountCell = logPart.mountpoint || '-';
                         let logLabelCell = logPart.label || '-';
                         let logSizeCell = self.formatSize(logPart.size);
+
+                        if (logSizeCell) {
+                            logSizeCell = logSizeCell.replace(' TB', ' TiB').replace(' GB', ' GiB').replace(' MB', ' MiB').replace(' KB', ' KiB');
+                        }
 
                         let logUsedCell = '-';
                         let logUnusedCell = '-';
@@ -1946,8 +1960,32 @@ return view.extend({
                             if (cellText === '/dev/' + p.name) {
                                 let cells = rowsDom[r].querySelectorAll('td');
                                 if (cells && cells.length >= 7) {
-                                    cells[5].textContent = usage.used || usage.total || '---';
-                                    cells[6].textContent = usage.available || '---';
+                                    if (usage.used) {
+                                        if (usage.used.includes('T')) {
+                                            cells[5].textContent = usage.used.replace('T', ' TiB');
+                                        } else if (usage.used.includes('G')) {
+                                            cells[5].textContent = usage.used.replace('G', ' GiB');
+                                        } else if (usage.used.includes('M')) {
+                                            cells[5].textContent = usage.used.replace('M', ' MiB');
+                                        } else if (usage.used.includes('K')) {
+                                            cells[5].textContent = usage.used.replace('K', ' KiB');
+                                        } else {
+                                            cells[5].textContent = usage.used || '-';
+                                        }
+                                    }
+                                    if (usage.available) {
+                                        if (usage.available.includes('T')) {
+                                            cells[6].textContent = usage.available.replace('T', ' TiB');
+                                        } else if (usage.available.includes('G')) {
+                                            cells[6].textContent = usage.available.replace('G', ' GiB');
+                                        } else if (usage.available.includes('M')) {
+                                            cells[6].textContent = usage.available.replace('M', ' MiB');
+                                        } else if (usage.available.includes('K')) {
+                                            cells[6].textContent = usage.available.replace('K', ' KiB');
+                                        } else {
+                                            cells[6].textContent = usage.available || '-';
+                                        }
+                                    }
                                 }
                                 break;
                             }
@@ -1959,6 +1997,7 @@ return view.extend({
 
         return table;
     },
+
 
     getPartitionUsage: function(mountpoint) {
         return L.resolveDefault(fs.exec('/bin/df', ['-h', mountpoint]), null).then(res => {

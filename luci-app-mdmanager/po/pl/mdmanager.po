@@ -386,7 +386,7 @@ msgid "Package support"
 msgstr "Wsparcie pakietu"
 
 msgid "Mini Disk Manager Info"
-msgstr "Informacje o Mini Disk Manager"
+msgstr "Mini Menedżer Dysków - informacje"
 
 msgid "Luci-app-mdmanager"
 msgstr "Luci-app-mdmanager"
@@ -509,10 +509,10 @@ msgid "Packages & Drivers"
 msgstr "Pakiety oraz sterowniki"
 
 msgid "Mini Disk Manager log"
-msgstr "Mini Disk Manager dziennik"
+msgstr "Mini Menedżer Dysków dziennik"
 
 msgid "Mini Disk Manager Log"
-msgstr "Mini Disk Manager dziennik"
+msgstr "Mini Menedżer Dysków dziennik"
 
-msgid ""
-msgstr ""
+msgid "Packages required to support various file systems."
+msgstr "Pakiety wymagane do obsługi różnych systemów plików."
