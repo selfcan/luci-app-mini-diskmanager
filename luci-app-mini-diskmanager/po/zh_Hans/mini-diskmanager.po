@@ -250,6 +250,9 @@ msgstr "加载磁盘信息失败："
 msgid "Click to select"
 msgstr "点击以选择"
 
+msgid "System partition cannot be selected"
+msgstr "无法选择系统分区"
+
 msgid "Free"
 msgstr "可用"
 

@@ -1,0 +1,770 @@
+msgid "Disk Manager"
+msgstr "Gestionnaire de disques"
+
+msgid "-- Select a disk --"
+msgstr "-- Sélectionner un disque --"
+
+msgid "Disk"
+msgstr "Disque"
+
+msgid "Refresh"
+msgstr "Actualiser"
+
+msgid "Mounting actions"
+msgstr "Actions de montage"
+
+msgid "Actions on partitions"
+msgstr "Opérations sur les partitions"
+
+msgid "Mount"
+msgstr "Monter"
+
+msgid "Unmount"
+msgstr "Démonter"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Format"
+msgstr "Formater"
+
+msgid "Please select a disk to view its partitions"
+msgstr "Veuillez sélectionner un disque pour voir ses partitions"
+
+msgid "Please select a disk first"
+msgstr "Veuillez d'abord sélectionner un disque"
+
+msgid "Please select a partition first"
+msgstr "Veuillez d'abord sélectionner une partition"
+
+msgid "Loading disk information..."
+msgstr "Chargement des informations du disque..."
+
+msgid "Error loading disk information: "
+msgstr "Erreur de chargement des informations du disque : "
+
+msgid "Disk Information"
+msgstr "Informations du disque"
+
+msgid "Temperature"
+msgstr "Température"
+
+msgid "S.M.A.R.T."
+msgstr "S.M.A.R.T."
+
+msgid "S.M.A.R.T. Status"
+msgstr "État S.M.A.R.T."
+
+msgid "Partitions"
+msgstr "Partitions"
+
+msgid "Mount Status"
+msgstr "État du montage"
+
+msgid "Mounted"
+msgstr "Monté"
+
+msgid "Not mounted"
+msgstr "Non monté"
+
+msgid "Partition Layout"
+msgstr "Disposition des partitions"
+
+msgid "Partition"
+msgstr "Partition"
+
+msgid "Type / Filesystem"
+msgstr "Type / Système de fichiers"
+
+msgid "Mount Point"
+msgstr "Point de montage"
+
+msgid "Label"
+msgstr "Étiquette"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Used"
+msgstr "Utilisé"
+
+msgid "Unused"
+msgstr "Libre"
+
+msgid "Flags"
+msgstr "Drapeaux"
+
+msgid "No partitions found"
+msgstr "Aucune partition trouvée"
+
+msgid "Unallocated"
+msgstr "Non alloué"
+
+msgid "Area without partition table"
+msgstr "Zone sans table de partition"
+
+msgid "Free Space"
+msgstr "Espace libre"
+
+msgid "Primary"
+msgstr "Primaire"
+
+msgid "Extended"
+msgstr "Étendue"
+
+msgid "Logical"
+msgstr "Logique"
+
+msgid "Create partition"
+msgstr "Créer une partition"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "File system"
+msgstr "Système de fichiers"
+
+msgid "Volume label"
+msgstr "Étiquette du volume"
+
+msgid "Partition size"
+msgstr "Taille de la partition"
+
+msgid "Enter size"
+msgstr "Entrer la taille"
+
+msgid "Use all available space"
+msgstr "Utiliser tout l'espace disponible"
+
+msgid "Available: %s MB / %s GB / %s TB"
+msgstr "Disponible : %s Mo / %s Go / %s To"
+
+msgid "Please enter a valid size"
+msgstr "Veuillez entrer une taille valide"
+
+msgid "Size is too small"
+msgstr "La taille est trop petite"
+
+msgid "Creating partition..."
+msgstr "Création de la partition..."
+
+msgid "Partition created successfully"
+msgstr "Partition créée avec succès"
+
+msgid "Failed to create partition"
+msgstr "Échec de la création de la partition"
+
+msgid "Format Partition"
+msgstr "Formater la partition"
+
+msgid "Warning"
+msgstr "Avertissement"
+
+msgid "This will erase all data on /dev/%s"
+msgstr "Cela effacera toutes les données sur /dev/%s"
+
+msgid "Formatting partition..."
+msgstr "Formatage de la partition..."
+
+msgid "Partition formatted successfully"
+msgstr "Partition formatée avec succès"
+
+msgid "Failed to format partition"
+msgstr "Échec du formatage de la partition"
+
+msgid "Delete Partition"
+msgstr "Supprimer la partition"
+
+msgid "Are you sure you want to continue?"
+msgstr "Êtes-vous sûr de vouloir continuer ?"
+
+msgid "Deleting partition..."
+msgstr "Suppression de la partition..."
+
+msgid "Partition deleted successfully"
+msgstr "Partition supprimée avec succès"
+
+msgid "Failed to delete partition"
+msgstr "Échec de la suppression de la partition"
+
+msgid "No partitions to mount"
+msgstr "Aucune partition à monter"
+
+msgid "No mounted partitions found"
+msgstr "Aucune partition montée trouvée"
+
+msgid "No partitions to unmount"
+msgstr "Aucune partition à démonter"
+
+msgid "Mounted to %s"
+msgstr "Monté sur %s"
+
+msgid "Unmounted %s"
+msgstr "Démonté %s"
+
+msgid "Failed to mount: "
+msgstr "Échec du montage : "
+
+msgid "Failed to unmount: "
+msgstr "Échec du démontage : "
+
+msgid "Failed to check operation status: "
+msgstr "Échec de la vérification de l'état de l'opération : "
+
+msgid "Partition created but device node did not appear in time"
+msgstr "Partition créée mais le nœud de périphérique n'est pas apparu à temps"
+
+msgid "Partition created but device node did not appear; please refresh manually"
+msgstr "Partition créée mais le nœud de périphérique n'est pas apparu ; veuillez actualiser manuellement"
+
+msgid "PASSED"
+msgstr "RÉUSSI"
+
+msgid "FAILED"
+msgstr "ÉCHOUÉ"
+
+msgid "Cannot create partition on mounted disk. Please unmount first."
+msgstr "Impossible de créer une partition sur un disque monté. Veuillez d'abord démonter."
+
+msgid "No unallocated space available on this disk"
+msgstr "Aucun espace non alloué disponible sur ce disque"
+
+msgid "Cannot format mounted partition. Please unmount first."
+msgstr "Impossible de formater une partition montée. Veuillez d'abord la démonter."
+
+msgid "Failed to refresh partition data: "
+msgstr "Échec de l'actualisation des données de partition : "
+
+msgid "Cannot delete partition on mounted disk. Please unmount first."
+msgstr "Impossible de supprimer une partition sur un disque monté. Veuillez d'abord démonter."
+
+msgid "This will delete partition /dev/%s and all its data!"
+msgstr "Cela supprimera la partition /dev/%s et toutes ses données !"
+
+msgid "Failed to load disk information: "
+msgstr "Échec du chargement des informations du disque : "
+
+msgid "Click to select"
+msgstr "Cliquer pour sélectionner"
+
+msgid "System partition cannot be selected"
+msgstr "La partition système ne peut pas être sélectionnée"
+
+msgid "Free"
+msgstr "Libre"
+
+msgid "Select a disk"
+msgstr "Sélectionner un disque"
+
+msgid "Create a new partition on the selected disk"
+msgstr "Créer une nouvelle partition sur le disque sélectionné"
+
+msgid "Partition layout"
+msgstr "Disposition des partitions"
+
+msgid "Partition type"
+msgstr "Type de partition"
+
+msgid "Refresh partition data"
+msgstr "Actualiser les données de partition"
+
+msgid "MBR (Master Boot Record)"
+msgstr "MBR (Master Boot Record)"
+
+msgid "GPT (GUID Partition Table)"
+msgstr "GPT (Table de partition GUID)"
+
+msgid "The Mini Disk Manager package allows users to easily manage disks and partitions."
+msgstr "Le package Mini Gestionnaire de disques permet aux utilisateurs de gérer facilement les disques et les partitions."
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Package and Driver Verification"
+msgstr "Vérification des packages et des pilotes"
+
+msgid "Check and install required drivers for storage devices."
+msgstr "Vérifier et installer les pilotes requis pour les périphériques de stockage."
+
+msgid "Filesystem Support"
+msgstr "Support des systèmes de fichiers"
+
+msgid "Check USB drivers"
+msgstr "Vérifier les pilotes USB"
+
+msgid "USB drivers"
+msgstr "Pilotes USB"
+
+msgid "Check NVMe drivers"
+msgstr "Vérifier les pilotes NVMe"
+
+msgid "NVMe drivers"
+msgstr "Pilotes NVMe"
+
+msgid "Check ATA/SATA drivers"
+msgstr "Vérifier les pilotes ATA/SATA"
+
+msgid "ATA/SATA drivers"
+msgstr "Pilotes ATA/SATA"
+
+msgid "Storage drive support"
+msgstr "Support des lecteurs de stockage"
+
+msgid "Check SCSI drivers"
+msgstr "Vérifier les pilotes SCSI"
+
+msgid "SCSI drivers"
+msgstr "Pilotes SCSI"
+
+msgid "Disk management packages"
+msgstr "Packages de gestion des disques"
+
+msgid "Check Disk Management packages"
+msgstr "Vérifier les packages de gestion des disques"
+
+msgid "Disk Management (fdisk, parted, losetup)"
+msgstr "Gestion des disques (fdisk, parted, losetup)"
+
+msgid "Extended partition support (gdisk)"
+msgstr "Support des partitions étendues (gdisk)"
+
+msgid "GPT partition support (parted, gdisk)"
+msgstr "Support des partitions GPT (parted, gdisk)"
+
+msgid "Partition size modification support (resize2fs)"
+msgstr "Support de modification de taille de partition (resize2fs)"
+
+msgid "Disk and partition modification support (sfdisk)"
+msgstr "Support de modification de disque et partition (sfdisk)"
+
+msgid "Partition scanning and updating support (partx)"
+msgstr "Support de numérisation et mise à jour des partitions (partx)"
+
+msgid "Filesystem packages"
+msgstr "Packages de systèmes de fichiers"
+
+msgid "Check Filesystem packages"
+msgstr "Vérifier les packages de systèmes de fichiers"
+
+msgid "Filesystems"
+msgstr "Systèmes de fichiers"
+
+msgid "EXT2"
+msgstr "EXT2"
+
+msgid "EXT3"
+msgstr "EXT3"
+
+msgid "EXT4"
+msgstr "EXT4"
+
+msgid "EXFAT"
+msgstr "EXFAT"
+
+msgid "F2FS"
+msgstr "F2FS"
+
+msgid "FAT32"
+msgstr "FAT32"
+
+msgid "NTFS-3G"
+msgstr "NTFS-3G"
+
+msgid "XFS"
+msgstr "XFS"
+
+msgid "BTRFS"
+msgstr "BTRFS"
+
+msgid "All Required"
+msgstr "Tous requis"
+
+msgid "Please do NOT refresh or leave this page until verification is complete."
+msgstr "Veuillez NE PAS actualiser ou quitter cette page jusqu'à ce que la vérification soit terminée."
+
+msgid "Verify"
+msgstr "Vérifier"
+
+msgid "Check All"
+msgstr "Tout vérifier"
+
+msgid "Install"
+msgstr "Installer"
+
+msgid "Install All"
+msgstr "Tout installer"
+
+msgid "Verify Selected"
+msgstr "Vérifier la sélection"
+
+msgid "Install Selected"
+msgstr "Installer la sélection"
+
+msgid "Verify Required"
+msgstr "Vérifier les requis"
+
+msgid "Install Required"
+msgstr "Installer les requis"
+
+msgid "Component"
+msgstr "Composant"
+
+msgid "Status"
+msgstr "État"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Installed"
+msgstr "Installé"
+
+msgid "Not installed"
+msgstr "Non installé"
+
+msgid "Package installation failed for: "
+msgstr "Échec de l'installation du package pour : "
+
+msgid "Verification/installation in progress..."
+msgstr "Vérification/installation en cours..."
+
+msgid "Verification in progress..."
+msgstr "Vérification en cours..."
+
+msgid "Installation in progress..."
+msgstr "Installation en cours..."
+
+msgid "Waiting for package verification..."
+msgstr "En attente de la vérification du package..."
+
+msgid "All packages installed successfully"
+msgstr "Tous les packages installés avec succès"
+
+msgid "Some packages failed to install"
+msgstr "Certains packages n'ont pas pu être installés"
+
+msgid "Installed via filesystem support"
+msgstr "Installé via le support du système de fichiers"
+
+msgid "About Package"
+msgstr "À propos du package"
+
+msgid "Star"
+msgstr "Étoile"
+
+msgid "Star the package repository on Github"
+msgstr "Mettre une étoile au dépôt du package sur Github"
+
+msgid "Sponsor"
+msgstr "Sponsor"
+
+msgid "Become a sponsor if you want to support the development of the project and its author"
+msgstr "Devenez un sponsor si vous souhaitez soutenir le développement du projet et son auteur"
+
+msgid "Write on forum"
+msgstr "Écrire sur le forum"
+
+msgid "Write in the topic of the package on the forum eko.one.pl"
+msgstr "Écrire dans le sujet du package sur le forum eko.one.pl"
+
+msgid "Open discussion"
+msgstr "Ouvrir une discussion"
+
+msgid "Open a package discussion on Github"
+msgstr "Ouvrir une discussion sur le package sur Github"
+
+msgid "Report a bug"
+msgstr "Signaler un bug"
+
+msgid "Report a bug on the package Github page"
+msgstr "Signaler un bug sur la page Github du package"
+
+msgid "Package name"
+msgstr "Nom du package"
+
+msgid "Author (package maintainer)"
+msgstr "Auteur (mainteneur du package)"
+
+msgid "Information about package author and available support options."
+msgstr "Informations sur l'auteur du package et les options de support disponibles."
+
+msgid ""
+msgstr ""
+
+msgid "All available space"
+msgstr "Tout l'espace disponible"
+
+msgid "Cannot delete mounted partition. Please unmount first."
+msgstr "Impossible de supprimer une partition montée. Veuillez d'abord la démonter."
+
+msgid "Failed to create partition: "
+msgstr "Échec de la création de la partition : "
+
+msgid "Failed to detect supported filesystems"
+msgstr "Échec de la détection des systèmes de fichiers supportés"
+
+msgid "Failed to format partition: "
+msgstr "Échec du formatage de la partition : "
+
+msgid "Failed to parse JSON response: "
+msgstr "Échec de l'analyse de la réponse JSON : "
+
+msgid "Failed to start formatting"
+msgstr "Échec du démarrage du formatage"
+
+msgid "Failed to start partition creation"
+msgstr "Échec du démarrage de la création de partition"
+
+msgid "Failed to start partition deletion"
+msgstr "Échec du démarrage de la suppression de partition"
+
+msgid "Fill in size"
+msgstr "Remplir la taille"
+
+msgid "Linux Swap"
+msgstr "Linux Swap"
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "No filesystem packages detected — user cannot choose unsupported filesystem formats."
+msgstr "Aucun package de système de fichiers détecté — l'utilisateur ne peut pas choisir de formats de système de fichiers non supportés."
+
+msgid "No partition types available. Maximum partitions reached."
+msgstr "Aucun type de partition disponible. Nombre maximum de partitions atteint."
+
+msgid "No supported filesystems detected on this system"
+msgstr "Aucun système de fichiers supporté détecté sur ce système"
+
+msgid "Optional"
+msgstr "Optionnel"
+
+msgid "Partition created but selected filesystem is not available for formatting on this system"
+msgstr "Partition créée mais le système de fichiers sélectionné n'est pas disponible pour le formatage sur ce système"
+
+msgid "Partition data refreshed"
+msgstr "Données de partition actualisées"
+
+msgid "Please select a filesystem"
+msgstr "Veuillez sélectionner un système de fichiers"
+
+msgid "RPC call failed: "
+msgstr "Échec de l'appel RPC : "
+
+msgid "Refreshing..."
+msgstr "Actualisation..."
+
+msgid "Selected filesystem is not supported on this system"
+msgstr "Le système de fichiers sélectionné n'est pas supporté sur ce système"
+
+msgid "Selected partition is not mounted"
+msgstr "La partition sélectionnée n'est pas montée"
+
+msgid "unknown error"
+msgstr "erreur inconnue"
+
+msgid "Packages & Drivers"
+msgstr "Packages et pilotes"
+
+msgid "Mini Disk Manager log"
+msgstr "Journal du Mini Gestionnaire de disques"
+
+msgid "Mini Disk Manager Log"
+msgstr "Journal du Mini Gestionnaire de disques"
+
+msgid "Packages required to support various file systems."
+msgstr "Packages requis pour supporter différents systèmes de fichiers."
+
+msgid "Expand"
+msgstr "Étendre"
+
+msgid "Resize"
+msgstr "Redimensionner"
+
+msgid "Resize Partition"
+msgstr "Redimensionner la partition"
+
+msgid "Resize partition /dev/%s"
+msgstr "Redimensionner la partition /dev/%s"
+
+msgid "Resizing partition..."
+msgstr "Redimensionnement de la partition..."
+
+msgid "Resizing a partition can cause data loss if not done correctly."
+msgstr "Le redimensionnement d'une partition peut causer une perte de données s'il n'est pas effectué correctement."
+
+msgid "Please ensure you have a backup of important data before proceeding."
+msgstr "Veuillez vous assurer d'avoir une sauvegarde des données importantes avant de continuer."
+
+msgid "Current size: %s MB / %s GB / %s TB"
+msgstr "Taille actuelle : %s Mo / %s Go / %s To"
+
+msgid "Available space: %s MB / %s GB / %s TB"
+msgstr "Espace disponible : %s Mo / %s Go / %s To"
+
+msgid "Maximum size to be obtained: %s MB / %s GB / %s TB"
+msgstr "Taille maximale à obtenir : %s Mo / %s Go / %s To"
+
+msgid "Maximum new size"
+msgstr "Taille maximale nouvelle"
+
+msgid "New size"
+msgstr "Nouvelle taille"
+
+msgid "Enter new size"
+msgstr "Entrer la nouvelle taille"
+
+msgid "New size must be larger than current size"
+msgstr "La nouvelle taille doit être supérieure à la taille actuelle"
+
+msgid "New size exceeds available space"
+msgstr "La nouvelle taille dépasse l'espace disponible"
+
+msgid "Partition resized successfully"
+msgstr "Partition redimensionnée avec succès"
+
+msgid "Failed to resize partition"
+msgstr "Échec du redimensionnement de la partition"
+
+msgid "Failed to resize partition: "
+msgstr "Échec du redimensionnement de la partition : "
+
+msgid "Failed to start partition resize"
+msgstr "Échec du démarrage du redimensionnement de partition"
+
+msgid "Selected partition cannot be resized. Only unmounted Ext2/3/4 partitions with available space can be resized."
+msgstr "La partition sélectionnée ne peut pas être redimensionnée. Seules les partitions Ext2/3/4 non montées avec de l'espace disponible peuvent être redimensionnées."
+
+msgid "MB"
+msgstr "Mo"
+
+msgid "GB"
+msgstr "Go"
+
+msgid "TB"
+msgstr "To"
+
+msgid "Cannot Create Partition"
+msgstr "Impossible de créer la partition"
+
+msgid "Insufficient Space"
+msgstr "Espace insuffisant"
+
+msgid "Cannot read partition information"
+msgstr "Impossible de lire les informations de partition"
+
+msgid "Invalid extended partition"
+msgstr "Partition étendue invalide"
+
+msgid "Extended partition not found or has invalid size"
+msgstr "Partition étendue introuvable ou de taille invalide"
+
+msgid "Extended partition size: %s MB"
+msgstr "Taille de la partition étendue : %s Mo"
+
+msgid "Used by logical partitions: %s MB"
+msgstr "Utilisé par les partitions logiques : %s Mo"
+
+msgid "Available for new logical: %s MB"
+msgstr "Disponible pour une nouvelle logique : %s Mo"
+
+msgid "Required minimum: 10 MB"
+msgstr "Minimum requis : 10 Mo"
+
+msgid "Not enough free space in extended partition /dev/%s"
+msgstr "Pas assez d'espace libre dans la partition étendue /dev/%s"
+
+msgid "Extended partition already exists. You can create primary partitions or select the extended partition to create logical partitions inside."
+msgstr "La partition étendue existe déjà. Vous pouvez créer des partitions primaires ou sélectionner la partition étendue pour créer des partitions logiques à l'intérieur."
+
+msgid "Creating partition inside extended partition. Only logical partitions can be created here."
+msgstr "Création d'une partition à l'intérieur de la partition étendue. Seules les partitions logiques peuvent être créées ici."
+
+msgid "No partition table detected. A primary partition will be created and a partition table will be initialized."
+msgstr "Aucune table de partition détectée. Une partition primaire sera créée et une table de partition sera initialisée."
+
+msgid "No partition table - select to create"
+msgstr "Pas de table de partition - sélectionner pour créer"
+
+msgid "No partitions - select to create"
+msgstr "Pas de partitions - sélectionner pour créer"
+
+msgid "Select to enable partition creation"
+msgstr "Sélectionner pour activer la création de partition"
+
+msgid "Select unallocated space"
+msgstr "Sélectionner l'espace non alloué"
+
+msgid "Unallocated space"
+msgstr "Espace non alloué"
+
+msgid "Expand Ext2/Ext3/Ext4"
+msgstr "Étendre Ext2/Ext3/Ext4"
+
+msgid "Wipe"
+msgstr "Effacer"
+
+msgid "Select all partitions for wiping"
+msgstr "Sélectionner toutes les partitions pour effacement"
+
+msgid "Please enable wipe mode first"
+msgstr "Veuillez d'abord activer le mode effacement"
+
+msgid "Cannot wipe disk with mounted partitions. Please unmount all partitions first."
+msgstr "Impossible d'effacer le disque avec des partitions montées. Veuillez d'abord démonter toutes les partitions."
+
+msgid "Wipe Disk"
+msgstr "Effacer le disque"
+
+msgid "WARNING"
+msgstr "AVERTISSEMENT"
+
+msgid "This will completely erase the partition table and all data on /dev/%s!"
+msgstr "Cela effacera complètement la table de partition et toutes les données sur /dev/%s !"
+
+msgid "THIS OPERATION CANNOT BE UNDONE!"
+msgstr "CETTE OPÉRATION NE PEUT PAS ÊTRE ANNULÉE !"
+
+msgid "Number of partitions to be deleted: %d"
+msgstr "Nombre de partitions à supprimer : %d"
+
+msgid "Are you absolutely sure you want to continue?"
+msgstr "Êtes-vous absolument sûr de vouloir continuer ?"
+
+msgid "Wiping disk partition table..."
+msgstr "Effacement de la table de partition du disque..."
+
+msgid "Disk partition table has been successfully erased"
+msgstr "La table de partition du disque a été effacée avec succès"
+
+msgid "Failed to wipe disk"
+msgstr "Échec de l'effacement du disque"
+
+msgid "Failed to start disk wipe"
+msgstr "Échec du démarrage de l'effacement du disque"
+
+msgid "Failed to wipe disk: "
+msgstr "Échec de l'effacement du disque : "
+
+msgid "Disk Wipe Support"
+msgstr "Support d'effacement de disque"
+
+msgid "Packages required to support disk wiping functionality (clearing partition table)."
+msgstr "Packages requis pour supporter la fonctionnalité d'effacement de disque (suppression de la table de partition)."
+
+msgid "Check Disk Wipe packages"
+msgstr "Vérifier les packages d'effacement de disque"
+
+msgid "Disk Wipe"
+msgstr "Effacement de disque"
+
+msgid "dd from BusyBox"
+msgstr "dd depuis BusyBox"
+
+msgid "Disk Wipe (dd command)"
+msgstr "Effacement de disque (commande dd)"
+
+msgid "alternative"
+msgstr "alternative"

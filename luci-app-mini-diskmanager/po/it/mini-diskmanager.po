@@ -250,6 +250,9 @@ msgstr "Impossibile caricare le informazioni del disco: "
 msgid "Click to select"
 msgstr "Clicca per selezionare"
 
+msgid "System partition cannot be selected"
+msgstr "La partizione di sistema non può essere selezionata"
+
 msgid "Free"
 msgstr "Libero"
 

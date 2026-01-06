@@ -250,6 +250,9 @@ msgstr "Không thể tải thông tin đĩa: "
 msgid "Click to select"
 msgstr "Nhấp để chọn"
 
+msgid "System partition cannot be selected"
+msgstr "Không thể chọn phân vùng hệ thống"
+
 msgid "Free"
 msgstr "Trống"
 

@@ -8,7 +8,7 @@
 
 /*
 
-  Copyright 2025 Rafał Wabik - IceG - From eko.one.pl forum
+  Copyright 2025-2026 Rafał Wabik - IceG - From eko.one.pl forum
   
   MIT License
   
@@ -2026,13 +2026,19 @@ return view.extend({
                                 
                                 if (this.wipeAllEnabled) {
                                     partCheckboxes.forEach(cb => {
-                                        cb.checked = true;
-                                        cb.disabled = true;
+                                        if (!cb.disabled) {
+                                            cb.checked = true;
+                                            cb.disabled = true;
+                                        }
                                     });
                                 } else {
                                     partCheckboxes.forEach(cb => {
-                                        cb.checked = false;
-                                        cb.disabled = false;
+                                        if (!cb.disabled) {
+                                            cb.checked = false;
+                                        }
+                                        if (cb.getAttribute('disabled') === null) {
+                                            cb.disabled = false;
+                                        }
                                     });
                                     this.selectedPartition = null;
                                     this.selectedUnallocated = null;
@@ -2187,13 +2193,16 @@ return view.extend({
             }
 
             (function(self, partRef, partedInfo, isExtended, extendedPartitions, partNum, fsClass, displayText, indicatorClass) {
+                let isCriticalMount = partRef.mountpoint === '/' || partRef.mountpoint === '/boot';
+                
                 let checkbox = E('input', {
                     'type': 'checkbox',
                     'class': 'partition-select-checkbox',
                     'name': 'partition_select',
                     'value': partRef.name,
                     'data-partition': partRef.name,
-                    'aria-label': '/dev/' + partRef.name
+                    'aria-label': '/dev/' + partRef.name,
+                    'disabled': isCriticalMount
                 });
 
                 checkbox.addEventListener('click', function(ev) {
@@ -2214,12 +2223,15 @@ return view.extend({
                     self.updateActionButtons();
                 }, false);
 
+                let partitionName = isCriticalMount ? '🔒 /dev/' + partRef.name : '/dev/' + partRef.name;
+                let tooltipText = isCriticalMount ? _('System partition cannot be selected') : _('Click to select');
+                
                 let partitionCellDom = E('label', {
-                    'data-tooltip': _('Click to select'),
-                    'style': 'cursor: pointer; display: inline-flex; align-items: center; gap:6px;'
+                    'data-tooltip': tooltipText,
+                    'style': 'cursor: pointer') + '; display: inline-flex; align-items: center; gap:6px;'
                 }, [
                     checkbox,
-                    E('span', {}, '/dev/' + partRef.name)
+                    E('span', {}, partitionName)
                 ]);
 
                 let typeCell = '<span class="partition-color-indicator ' + indicatorClass + '"></span> ' + displayText;
@@ -2262,13 +2274,16 @@ return view.extend({
                         let logFsClass = self.normalizeFsClass(logFsType);
                         let logIndicatorClass = logFsClass && logFsClass !== 'unallocated' ? logFsClass : 'logical';
 
+                        let isCriticalMount = logPart.mountpoint === '/' || logPart.mountpoint === '/boot';
+
                         let logCheckbox = E('input', {
                             'type': 'checkbox',
                             'class': 'partition-select-checkbox',
                             'name': 'partition_select',
                             'value': logPart.name,
                             'data-partition': logPart.name,
-                            'aria-label': '/dev/' + logPart.name
+                            'aria-label': '/dev/' + logPart.name,
+                            'disabled': isCriticalMount
                         });
 
                         logCheckbox.addEventListener('click', function(ev) {
@@ -2290,12 +2305,15 @@ return view.extend({
                         }, false);
 
                         let indent = '\u00A0\u00A0';
+                        let logPartitionName = isCriticalMount ? '🔒 /dev/' + logPart.name : '/dev/' + logPart.name;
+                        let logTooltipText = isCriticalMount ? _('System partition cannot be selected') : _('Click to select');
+                        
                         let logPartitionCellDom = E('label', {
-                            'data-tooltip': _('Click to select'),
-                            'style': 'cursor: pointer; display: inline-flex; align-items: center; gap:6px;'
+                            'data-tooltip': logTooltipText,
+                            'style': 'cursor: pointer') + '; display: inline-flex; align-items: center; gap:6px;'
                         }, [
                             logCheckbox,
-                            E('span', {}, indent + '▶ /dev/' + logPart.name)
+                            E('span', {}, indent + '▶ ' + logPartitionName)
                         ]);
 
                         let logTypeCell = '<span class="partition-color-indicator ' + logIndicatorClass + '"></span> ' + 
@@ -3129,7 +3147,6 @@ return view.extend({
             console.error('showCreatePartitionDialog error:', err);
         });
     },
-
 
     createPartition: async function(type, fstype, label, size, layout) {
         const restorer = this.disableAllButtonsAndRemember();

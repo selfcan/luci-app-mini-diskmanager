@@ -250,6 +250,9 @@ msgstr "Laden der Datenträgerinformationen fehlgeschlagen: "
 msgid "Click to select"
 msgstr "Zum Auswählen klicken"
 
+msgid "System partition cannot be selected"
+msgstr "Systempartition kann nicht ausgewählt werden"
+
 msgid "Free"
 msgstr "Frei"
 
