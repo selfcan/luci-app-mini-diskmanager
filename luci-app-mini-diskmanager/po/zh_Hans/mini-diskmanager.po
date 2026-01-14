@@ -768,8 +768,8 @@ msgstr "已损耗"
 msgid "remaining"
 msgstr "剩余"
 
-msgid "S.M.A.R.T. overall-health self-assessment test result: "
-msgstr "S.M.A.R.T. 整体健康自我评估测试结果："
+msgid "S.M.A.R.T. Health Status"
+msgstr "S.M.A.R.T. 磁盘整体健康状态"
 
 msgid "No S.M.A.R.T. attributes found."
 msgstr "未找到 S.M.A.R.T. 属性。"

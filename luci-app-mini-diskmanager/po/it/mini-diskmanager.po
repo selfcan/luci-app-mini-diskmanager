@@ -771,8 +771,8 @@ msgstr "consumato"
 msgid "remaining"
 msgstr "rimanente"
 
-msgid "S.M.A.R.T. overall-health self-assessment test result: "
-msgstr "Risultato del test di autovalutazione dello stato generale S.M.A.R.T.: "
+msgid "S.M.A.R.T. Health Status"
+msgstr "Stato di salute generale del disco S.M.A.R.T."
 
 msgid "No S.M.A.R.T. attributes found."
 msgstr "Nessun attributo S.M.A.R.T. trovato."

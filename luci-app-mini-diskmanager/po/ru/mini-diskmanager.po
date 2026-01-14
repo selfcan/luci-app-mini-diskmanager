@@ -771,8 +771,8 @@ msgstr "изношено"
 msgid "remaining"
 msgstr "осталось"
 
-msgid "S.M.A.R.T. overall-health self-assessment test result: "
-msgstr "Результат самооценки общего состояния S.M.A.R.T.: "
+msgid "S.M.A.R.T. Health Status"
+msgstr "Общее состояние здоровья диска S.M.A.R.T."
 
 msgid "No S.M.A.R.T. attributes found."
 msgstr "Атрибуты S.M.A.R.T. не найдены."

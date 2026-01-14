@@ -768,8 +768,8 @@ msgstr "đã hao mòn"
 msgid "remaining"
 msgstr "còn lại"
 
-msgid "S.M.A.R.T. overall-health self-assessment test result: "
-msgstr "Kết quả kiểm tra tự đánh giá tình trạng chung S.M.A.R.T.: "
+msgid "S.M.A.R.T. Health Status"
+msgstr "Tình trạng sức khỏe tổng thể của ổ đĩa S.M.A.R.T."
 
 msgid "No S.M.A.R.T. attributes found."
 msgstr "Không tìm thấy thuộc tính S.M.A.R.T."

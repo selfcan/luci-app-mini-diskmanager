@@ -774,8 +774,8 @@ msgstr "abgenutzt"
 msgid "remaining"
 msgstr "verbleibend"
 
-msgid "S.M.A.R.T. overall-health self-assessment test result: "
-msgstr "S.M.A.R.T. Gesamtzustands-Selbstbewertungstestergebnis: "
+msgid "S.M.A.R.T. Health Status"
+msgstr "Allgemeiner Gesundheitszustand der Festplatte S.M.A.R.T."
 
 msgid "No S.M.A.R.T. attributes found."
 msgstr "Keine S.M.A.R.T.-Attribute gefunden."

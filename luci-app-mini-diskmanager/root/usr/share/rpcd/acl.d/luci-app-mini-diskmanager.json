@@ -42,6 +42,7 @@
 
 				"/usr/sbin/smartctl --json=c -A /dev/*": ["exec"],
 				"/usr/sbin/smartctl --json=c -A -d sat /dev/*": ["exec"],
+				"/usr/sbin/smartctl --json=c -A -d ata /dev/*": ["exec"],
 				"/usr/sbin/smartctl -i /dev/*": ["exec"],
 				"/usr/sbin/smartctl -A /dev/*": ["exec"],
 				"/usr/sbin/smartctl -A -j /dev/*": ["exec"],

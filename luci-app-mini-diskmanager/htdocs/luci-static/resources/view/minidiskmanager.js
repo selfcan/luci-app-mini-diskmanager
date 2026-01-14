@@ -888,13 +888,13 @@ return view.extend({
                 if (res && res.code === 0) {
                     try {
                         const data = JSON.parse(res.stdout);
-                        if (data.temperature !== undefined && data.temperature > 0) {
+                        if (data.temperature !== undefined && data.temperature !== null) {
                             const tempC = data.temperature - 273;
                             if (tempC >= -50 && tempC <= 150) {
                                 return tempC + ' °C';
                             }
                         }
-                        if (data.temperature_sensor_1 !== undefined) {
+                        if (data.temperature_sensor_1 !== undefined && data.temperature_sensor_1 !== null) {
                             const tempC = data.temperature_sensor_1 - 273;
                             if (tempC >= -50 && tempC <= 150) {
                                 return tempC + ' °C';
@@ -916,7 +916,8 @@ return view.extend({
 
     const attempts = [
         ['--json=c', '-A', devicePath],
-        ['--json=c', '-A', '-d', 'sat', devicePath]
+        ['--json=c', '-A', '-d', 'sat', devicePath],
+        ['--json=c', '-A', '-d', 'ata', devicePath]
     ];
 
     const extractFromJson = function(jsonText) {
@@ -924,63 +925,89 @@ return view.extend({
         try {
             const obj = (typeof jsonText === 'string') ? JSON.parse(jsonText) : jsonText;
 
-            if (obj.temperature) {
-                if (typeof obj.temperature === 'number') return obj.temperature + ' °C';
-                if (typeof obj.temperature === 'object' && obj.temperature.current != null)
-                    return String(obj.temperature.current) + ' °C';
-                if (typeof obj.temperature === 'string') {
-                    const m = obj.temperature.match(/(\d{1,3})/);
-                    if (m) return m[1] + ' °C';
+            if (obj.temperature && typeof obj.temperature === 'object' && obj.temperature.current !== undefined && obj.temperature.current !== null) {
+                const temp = parseInt(obj.temperature.current);
+                if (!isNaN(temp) && temp > 0 && temp < 200) {
+                    return temp + ' °C';
                 }
-            }
-            if (obj['temperature.current'] || obj['Temperature'] || obj['temp']) {
-                const v = obj['temperature.current'] || obj['Temperature'] || obj['temp'];
-                let mv = null;
-                if (typeof v === 'number') mv = v;
-                if (typeof v === 'string') {
-                    const mm = String(v).match(/(\d{1,3})/);
-                    if (mm) mv = mm[1];
-                }
-                if (mv != null) return String(mv) + ' °C';
-            }
-
-            if (obj['nvme_smart_health'] && obj['nvme_smart_health'].temperature != null) {
-                return String(obj['nvme_smart_health'].temperature) + ' °C';
-            }
-            if (obj['nvme_smart_health']) {
-                const nv = obj['nvme_smart_health'];
-                if (nv.temperature != null) return String(nv.temperature) + ' °C';
             }
 
             if (obj.ata_smart_attributes && Array.isArray(obj.ata_smart_attributes.table)) {
                 for (let i = 0; i < obj.ata_smart_attributes.table.length; i++) {
                     const attr = obj.ata_smart_attributes.table[i];
-                    if (!attr) continue;
-                    if (attr.id === 194 || (attr.name && /temp/i.test(attr.name))) {
-                        if (attr.raw) {
-                            if (typeof attr.raw === 'object' && attr.raw.value != null) return String(attr.raw.value) + ' °C';
-                            if (typeof attr.raw === 'string') {
-                                const mm = attr.raw.match(/(\d{1,3})/);
-                                if (mm) return mm[1] + ' °C';
+                    if (!attr || (attr.id !== 194 && !(attr.name && /temp/i.test(attr.name)))) continue;
+                    
+                    if (attr.value !== undefined && attr.value !== null) {
+                        const temp = parseInt(attr.value);
+                        if (!isNaN(temp) && temp > 0 && temp < 200) {
+                            return temp + ' °C';
+                        }
+                    }
+                    
+                    if (attr.raw && typeof attr.raw === 'object' && attr.raw.string) {
+                        const match = String(attr.raw.string).match(/(\d{1,3})/);
+                        if (match) {
+                            const temp = parseInt(match[1]);
+                            if (!isNaN(temp) && temp > 0 && temp < 200) {
+                                return temp + ' °C';
                             }
                         }
-                        if (attr.value != null) return String(attr.value) + ' °C';
-                        if (attr.raw && attr.raw['value'] != null) return String(attr.raw['value']) + ' °C';
+                    }
+                    
+                    if (attr.raw && typeof attr.raw === 'string') {
+                        const match = attr.raw.match(/(\d{1,3})/);
+                        if (match) {
+                            const temp = parseInt(match[1]);
+                            if (!isNaN(temp) && temp > 0 && temp < 200) {
+                                return temp + ' °C';
+                            }
+                        }
                     }
                 }
             }
 
-            if (obj.smart_status && obj.smart_status.temperature != null) {
-                return String(obj.smart_status.temperature) + ' °C';
+            if (obj.temperature !== undefined && obj.temperature !== null && typeof obj.temperature === 'number') {
+                const temp = parseInt(obj.temperature);
+                if (!isNaN(temp) && temp > 0 && temp < 200) {
+                    return temp + ' °C';
+                }
             }
 
-            const txt = JSON.stringify(obj);
-            const m = txt.match(/"temperature"\s*[:=]\s*(\d{1,3})/i) ||
-                    txt.match(/"temp"\s*[:=]\s*(\d{1,3})/i) ||
-                    txt.match(/\bTemperature\b[^0-9\n\r]{0,6}[:=]?\s*(\d{1,3})/i);
-            if (m && m[1]) return m[1] + ' °C';
+            if (obj['temperature.current'] || obj['Temperature'] || obj['temp']) {
+                const v = obj['temperature.current'] || obj['Temperature'] || obj['temp'];
+                if (typeof v === 'number') {
+                    const temp = parseInt(v);
+                    if (!isNaN(temp) && temp > 0 && temp < 200) {
+                        return temp + ' °C';
+                    }
+                }
+                if (typeof v === 'string') {
+                    const match = String(v).match(/(\d{1,3})/);
+                    if (match) {
+                        const temp = parseInt(match[1]);
+                        if (!isNaN(temp) && temp > 0 && temp < 200) {
+                            return temp + ' °C';
+                        }
+                    }
+                }
+            }
+
+            if (obj['nvme_smart_health'] && obj['nvme_smart_health'].temperature !== undefined && obj['nvme_smart_health'].temperature !== null) {
+                const temp = parseInt(obj['nvme_smart_health'].temperature);
+                if (!isNaN(temp) && temp > 0 && temp < 200) {
+                    return temp + ' °C';
+                }
+            }
+
+            if (obj.smart_status && obj.smart_status.temperature !== undefined && obj.smart_status.temperature !== null) {
+                const temp = parseInt(obj.smart_status.temperature);
+                if (!isNaN(temp) && temp > 0 && temp < 200) {
+                    return temp + ' °C';
+                }
+            }
+
         } catch (e) {
-            // return null
+            console.error('Temperature extraction error:', e);
             return null;
         }
         return null;
@@ -1112,24 +1139,38 @@ return view.extend({
                     if (res && res.code === 0) {
                         try {
                             const data = JSON.parse(res.stdout);
+                            
+                            const safeNumber = (val, defaultVal = 0) => {
+                                if (val === undefined || val === null) return defaultVal;
+                                const num = typeof val === 'number' ? val : parseInt(val);
+                                return isNaN(num) ? defaultVal : num;
+                            };
+                            
+                            const criticalWarning = safeNumber(data.critical_warning, 0);
+                            const availSpare = safeNumber(data.avail_spare, null);
+                            const percentUsed = safeNumber(data.percent_used, null);
+                            const unsafeShutdowns = safeNumber(data.unsafe_shutdowns, 0);
+                            const mediaErrors = safeNumber(data.media_errors, 0);
+                            const errorLogEntries = safeNumber(data.num_err_log_entries, 0);
+                            
                             return {
                                 type: 'nvme',
                                 raw: data,
                                 attributes: [
                                     {
                                         name: _('Critical Warning'),
-                                        value: data.critical_warning || 0,
-                                        status: (data.critical_warning === 0) ? 'OK' : 'WARNING'
+                                        value: criticalWarning,
+                                        status: (criticalWarning === 0) ? 'OK' : 'WARNING'
                                     },
                                     {
                                         name: _('Temperature'),
-                                        value: data.temperature ? (data.temperature - 273) + ' °C' : '-',
+                                        value: data.temperature !== undefined ? (data.temperature - 273) + ' °C' : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Available Spare'),
-                                        value: data.avail_spare !== undefined ? data.avail_spare + '%' : '-',
-                                        status: (data.avail_spare >= 10) ? 'OK' : 'WARNING'
+                                        value: availSpare !== null ? availSpare + '%' : '-',
+                                        status: availSpare !== null && availSpare >= 10 ? 'OK' : 'WARNING'
                                     },
                                     {
                                         name: _('Available Spare Threshold'),
@@ -1138,58 +1179,58 @@ return view.extend({
                                     },
                                     {
                                         name: _('Percentage Used'),
-                                        value: data.percent_used !== undefined ? data.percent_used + '%' : '-',
-                                        status: (data.percent_used < 80) ? 'OK' : 'WARNING'
+                                        value: percentUsed !== null ? percentUsed + '%' : '-',
+                                        status: percentUsed !== null && percentUsed < 80 ? 'OK' : 'WARNING'
                                     },
                                     {
                                         name: _('Data Units Read'),
-                                        value: data.data_units_read || '-',
+                                        value: data.data_units_read !== undefined ? data.data_units_read : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Data Units Written'),
-                                        value: data.data_units_written || '-',
+                                        value: data.data_units_written !== undefined ? data.data_units_written : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Host Read Commands'),
-                                        value: data.host_read_commands || '-',
+                                        value: data.host_read_commands !== undefined ? data.host_read_commands : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Host Write Commands'),
-                                        value: data.host_write_commands || '-',
+                                        value: data.host_write_commands !== undefined ? data.host_write_commands : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Controller Busy Time'),
-                                        value: data.controller_busy_time || '-',
+                                        value: data.controller_busy_time !== undefined ? data.controller_busy_time : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Power Cycles'),
-                                        value: data.power_cycles || '-',
+                                        value: data.power_cycles !== undefined ? data.power_cycles : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Power On Hours'),
-                                        value: data.power_on_hours || '-',
+                                        value: data.power_on_hours !== undefined ? data.power_on_hours : '-',
                                         status: 'INFO'
                                     },
                                     {
                                         name: _('Unsafe Shutdowns'),
-                                        value: data.unsafe_shutdowns || '-',
-                                        status: (data.unsafe_shutdowns > 100) ? 'WARNING' : 'INFO'
+                                        value: unsafeShutdowns,
+                                        status: unsafeShutdowns > 100 ? 'WARNING' : 'INFO'
                                     },
                                     {
                                         name: _('Media Errors'),
-                                        value: data.media_errors || '0',
-                                        status: (data.media_errors > 0) ? 'ERROR' : 'OK'
+                                        value: mediaErrors,
+                                        status: mediaErrors > 0 ? 'ERROR' : 'OK'
                                     },
                                     {
                                         name: _('Error Log Entries'),
-                                        value: data.num_err_log_entries || '0',
-                                        status: (data.num_err_log_entries > 0) ? 'WARNING' : 'OK'
+                                        value: errorLogEntries,
+                                        status: errorLogEntries > 0 ? 'WARNING' : 'OK'
                                     }
                                 ]
                             };
@@ -1213,27 +1254,42 @@ return view.extend({
                             const data = JSON.parse(res.stdout);
                             let attributes = [];
                             
-                            if (data.ata_smart_attributes && data.ata_smart_attributes.table) {
-                                attributes = data.ata_smart_attributes.table.map(attr => {
-                                    let status = 'INFO';
-                                    if (attr.thresh && attr.value < attr.thresh) {
-                                        status = 'ERROR';
-                                    } else if (attr.worst && attr.value < attr.worst + 10) {
-                                        status = 'WARNING';
-                                    } else if (attr.value >= 100) {
-                                        status = 'OK';
-                                    }
+                            if (data.ata_smart_attributes && Array.isArray(data.ata_smart_attributes.table)) {
+                                attributes = data.ata_smart_attributes.table
+                                    .filter(attr => attr && attr.id !== undefined)
+                                    .map(attr => {
+                                        let status = 'INFO';
+                                        const attrValue = attr.value !== undefined ? attr.value : null;
+                                        const attrThresh = attr.thresh !== undefined ? attr.thresh : null;
+                                        const attrWorst = attr.worst !== undefined ? attr.worst : null;
+                                        
+                                        if (attrThresh !== null && attrValue !== null && attrValue < attrThresh) {
+                                            status = 'ERROR';
+                                        } else if (attrWorst !== null && attrValue !== null && attrValue < attrWorst + 10) {
+                                            status = 'WARNING';
+                                        } else if (attrValue !== null && attrValue >= 100) {
+                                            status = 'OK';
+                                        }
 
-                                    return {
-                                        id: attr.id,
-                                        name: attr.name || 'Unknown',
-                                        value: attr.value || '-',
-                                        worst: attr.worst || '-',
-                                        thresh: attr.thresh || '-',
-                                        raw: (attr.raw && attr.raw.value !== undefined) ? attr.raw.value : (attr.raw || '-'),
-                                        status: status
-                                    };
-                                });
+                                        let rawValue = '-';
+                                        if (attr.raw !== undefined) {
+                                            if (typeof attr.raw === 'object' && attr.raw !== null && attr.raw.value !== undefined) {
+                                                rawValue = attr.raw.value;
+                                            } else if (attr.raw !== null) {
+                                                rawValue = attr.raw;
+                                            }
+                                        }
+
+                                        return {
+                                            id: attr.id,
+                                            name: attr.name || 'Unknown_Attr_' + attr.id,
+                                            value: attrValue !== null ? attrValue : '-',
+                                            worst: attrWorst !== null ? attrWorst : '-',
+                                            thresh: attrThresh !== null ? attrThresh : '-',
+                                            raw: rawValue,
+                                            status: status
+                                        };
+                                    });
                             }
 
                             return {
@@ -3156,7 +3212,8 @@ return view.extend({
 
             // NVMe
             if (smartData.type === 'nvme') {
-                let criticalWarning = smartData.raw.critical_warning || 0;
+                let criticalWarning = smartData.raw.critical_warning !== undefined ? 
+                    smartData.raw.critical_warning : 0;
                 let statusLabel = criticalWarning === 0 ?
                     E('span', {'class': 'disks-info-label-status disks-info-ok-label'}, _('OK')) :
                     E('span', {'class': 'disks-info-label-status disks-info-err-label'}, _('WARNING'));
@@ -3168,20 +3225,22 @@ return view.extend({
                     statusLabel
                 ]));
 
-                let percentUsed = smartData.raw.percent_used !== undefined ? smartData.raw.percent_used : 0;
-                let powerOnHours = smartData.raw.power_on_hours || 0;
+                let percentUsed = smartData.raw.percent_used !== undefined ? 
+                    smartData.raw.percent_used : 0;
+                let powerOnHours = smartData.raw.power_on_hours !== undefined ? 
+                    smartData.raw.power_on_hours : 0;
                 let powerOnTimeFormatted = this.formatPowerOnTime(powerOnHours);
                 
                 // Temp
                 let temperature = '-';
-                if (smartData.raw.temperature !== undefined && smartData.raw.temperature > 0) {
+                if (smartData.raw.temperature !== undefined && smartData.raw.temperature !== null) {
                     let tempC = smartData.raw.temperature - 273;
                     if (tempC >= -50 && tempC <= 150) {
                         temperature = tempC + ' °C';
                     }
                 }
                 
-                content.push(E('table', {'class': 'table', 'style': 'margin: 1em 0;'}, [
+                let statusTableRows = [
                     E('tr', {'class': 'tr'}, [
                         E('td', {'class': 'td left', 'style': 'width: 33%;'}, [_('Power On Time')]),
                         E('td', {'class': 'td'}, [
@@ -3199,24 +3258,31 @@ return view.extend({
                                 temperature
                             ])
                         ])
-                    ]),
-                    E('tr', {'class': 'tr'}, [
-                        E('td', {'class': 'td left', 'style': 'width: 33%;'}, [_('Disk Usage')]),
-                        E('td', {'class': 'td'}, [
-                            E('div', {'class': 'right'}, [
-                                E('div', {
-                                    'class': 'cbi-progressbar',
-                                    'title': percentUsed + '% ' + ' / ' + (100 - percentUsed) + '% '
-                                }, E('div', {
-                                    'style': 'width:' + percentUsed + '%; background-color: ' +
-                                        (percentUsed >= 95 ? 'var(--app-mini-diskmanager-danger)' :
-                                         percentUsed >= 80 ? 'var(--app-mini-diskmanager-warning)' :
-                                         'var(--app-mini-diskmanager-primary)') + ';'
-                                })),
+                    ])
+                ];
+                
+                if (percentUsed !== null && percentUsed !== undefined) {
+                    statusTableRows.push(
+                        E('tr', {'class': 'tr'}, [
+                            E('td', {'class': 'td left', 'style': 'width: 33%;'}, [_('Disk Usage')]),
+                            E('td', {'class': 'td'}, [
+                                E('div', {'class': 'right'}, [
+                                    E('div', {
+                                        'class': 'cbi-progressbar',
+                                        'title': percentUsed + '% ' + ' / ' + (100 - percentUsed) + '% '
+                                    }, E('div', {
+                                        'style': 'width:' + percentUsed + '%; background-color: ' +
+                                            (percentUsed >= 95 ? 'var(--app-mini-diskmanager-danger)' :
+                                             percentUsed >= 80 ? 'var(--app-mini-diskmanager-warning)' :
+                                             'var(--app-mini-diskmanager-primary)') + ';'
+                                    })),
+                                ])
                             ])
                         ])
-                    ])
-                ]));
+                    );
+                }
+                
+                content.push(E('table', {'class': 'table', 'style': 'margin: 1em 0;'}, statusTableRows));
 
                 // NVMe
                 let nvmeTable = E('table', {
@@ -3230,6 +3296,8 @@ return view.extend({
                 ]);
 
                 for (let attr of smartData.attributes) {
+                    if (!attr || !attr.name) continue;
+                    
                     let lineStyle = 'tr';
                     if (attr.status === 'ERROR') {
                         lineStyle = 'tr disks-info-err';
@@ -3239,9 +3307,9 @@ return view.extend({
 
                     nvmeTable.appendChild(
                         E('tr', {'class': lineStyle}, [
-                            E('td', {'class': 'td left'}, attr.name),
+                            E('td', {'class': 'td left'}, attr.name || 'Unknown'),
                             E('td', {'class': 'td left'}, 
-                                String(attr.value))
+                                attr.value !== undefined ? String(attr.value) : '-')
                         ])
                     );
                 }
@@ -3254,8 +3322,7 @@ return view.extend({
 
             } else {
                 // SATA/ATA
-                if (!smartData.raw.smart_status || !smartData.attributes || 
-                    smartData.attributes.length === 0) {
+                if (!smartData.attributes || smartData.attributes.length === 0) {
                     ui.showModal(_('S.M.A.R.T. Status') + ' - ' + devicePath, [
                         E('div', {'class': 'cbi-section'}, [
                             E('div', {'class': 'alert-message info'}, [
@@ -3280,14 +3347,19 @@ return view.extend({
                 }
 
                 // Status SMART
-                let smartStatusLabel = smartData.raw.smart_status.passed ?
+                let smartStatusPassed = true;
+                if (smartData.raw.smart_status && smartData.raw.smart_status.passed !== undefined) {
+                    smartStatusPassed = smartData.raw.smart_status.passed;
+                }
+                
+                let smartStatusLabel = smartStatusPassed ?
                     E('span', {'class': 'disks-info-label-status disks-info-ok-label'}, _('PASSED')) :
                     E('span', {'class': 'disks-info-label-status disks-info-err-label'}, _('FAILED'));
 
                 content.push(E('h5', {
                     'style': 'width:100% !important; text-align:center !important; margin: 1em 0;'
                 }, [
-                    _('S.M.A.R.T. overall-health self-assessment test result: '),
+                    _('S.M.A.R.T. Health Status')+': ',
                     smartStatusLabel
                 ]));
 
@@ -3296,22 +3368,39 @@ return view.extend({
                 let wearPercent = null;
                 
                 for (let attr of smartData.attributes) {
-                    if (attr.id === 9) {
-                        powerOnHours = typeof attr.raw === 'number' ? attr.raw : 
-                                      (typeof attr.raw === 'string' ? parseInt(attr.raw) : 0);
+                    if (!attr || attr.id === undefined) continue;
+                    
+                    if (attr.id === 9 && attr.raw !== undefined && attr.raw !== '-') {
+                        if (typeof attr.raw === 'number') {
+                            powerOnHours = attr.raw;
+                        } else if (typeof attr.raw === 'string') {
+                            const parsed = parseInt(attr.raw);
+                            if (!isNaN(parsed)) powerOnHours = parsed;
+                        }
                     }
-                    if (attr.id === 194) {
-                        let tempValue = typeof attr.raw === 'number' ? attr.raw : 
-                                       (typeof attr.raw === 'string' ? parseInt(attr.raw) : 0);
+                    
+                    if (attr.id === 194 && attr.raw !== undefined && attr.raw !== '-') {
+                        let tempValue = 0;
+                        if (typeof attr.raw === 'number') {
+                            tempValue = attr.raw;
+                        } else if (typeof attr.raw === 'string') {
+                            const parsed = parseInt(attr.raw.split(' ')[0]);
+                            if (!isNaN(parsed)) tempValue = parsed;
+                        }
                         if (tempValue > 0 && tempValue < 200) {
                             temperature = tempValue + ' °C';
                         }
                     }
-                    if (attr.id === 177 || attr.id === 233 || 
-                        (attr.name && (attr.name.includes('Wear') || attr.name.includes('Wearout')))) {
-                        wearPercent = 100 - attr.value;
-                        if (wearPercent < 0) wearPercent = 0;
-                        if (wearPercent > 100) wearPercent = 100;
+                    
+                    if ((attr.id === 177 || attr.id === 233 || 
+                        (attr.name && (attr.name.includes('Wear') || attr.name.includes('Wearout')))) &&
+                        attr.value !== undefined && attr.value !== '-') {
+                        const attrVal = typeof attr.value === 'number' ? attr.value : parseInt(attr.value);
+                        if (!isNaN(attrVal)) {
+                            wearPercent = 100 - attrVal;
+                            if (wearPercent < 0) wearPercent = 0;
+                            if (wearPercent > 100) wearPercent = 100;
+                        }
                     }
                 }
                 
@@ -3382,35 +3471,49 @@ return view.extend({
                 ]);
 
                 for (let attr of smartData.attributes) {
+                    if (!attr || attr.id === undefined) continue;
+                    
                     let lineStyle = 'tr';
+                    
                     if (attr.status === 'ERROR') {
                         lineStyle = 'tr disks-info-err';
                     } else if (attr.status === 'WARNING') {
                         lineStyle = 'tr disks-info-warn';
-                    } else if (smartCriticalAttrs.includes(attr.id) && 
-                               typeof attr.raw === 'number' && attr.raw > 0) {
-                        lineStyle = 'tr disks-info-warn';
+                    } else if (smartCriticalAttrs.includes(attr.id)) {
+                        const rawVal = typeof attr.raw === 'number' ? attr.raw : 
+                                      (typeof attr.raw === 'string' ? parseInt(attr.raw) : null);
+                        if (rawVal !== null && !isNaN(rawVal) && rawVal > 0) {
+                            lineStyle = 'tr disks-info-warn';
+                        }
                     } else if (smartTempAttrs.includes(attr.id)) {
-                        let tempValue = typeof attr.raw === 'string' ? 
-                            parseInt(attr.raw.split(' ')[0]) : attr.raw;
-                        if (tempValue >= diskTempWarning) {
+                        let tempValue = null;
+                        if (typeof attr.raw === 'number') {
+                            tempValue = attr.raw;
+                        } else if (typeof attr.raw === 'string') {
+                            const parsed = parseInt(attr.raw.split(' ')[0]);
+                            if (!isNaN(parsed)) tempValue = parsed;
+                        }
+                        if (tempValue !== null && tempValue >= diskTempWarning) {
                             lineStyle = 'tr disks-info-warn';
                         }
                     }
 
                     smartAttrsTable.appendChild(
                         E('tr', {'class': lineStyle}, [
-                            E('td', {'class': 'td right'}, String(attr.id)),
+                            E('td', {'class': 'td right'}, String(attr.id || '-')),
                             E('td', {'class': 'td left'}, 
                                 attr.name ? attr.name.replace(/_/g, ' ') : 'Unknown'),
                             E('td', {'class': 'td left', 'style': 'font-weight: bold;'}, 
-                                String(attr.raw)),
+                                String(attr.raw !== undefined ? attr.raw : '-')),
                             E('td', {'class': 'td left'}, 
-                                String(attr.value).padStart(3, '0')),
+                                attr.value !== '-' && !isNaN(attr.value) ? 
+                                    String(attr.value).padStart(3, '0') : String(attr.value)),
                             E('td', {'class': 'td left'}, 
-                                String(attr.worst).padStart(3, '0')),
+                                attr.worst !== '-' && !isNaN(attr.worst) ? 
+                                    String(attr.worst).padStart(3, '0') : String(attr.worst)),
                             E('td', {'class': 'td left'}, 
-                                String(attr.thresh).padStart(3, '0'))
+                                attr.thresh !== '-' && !isNaN(attr.thresh) ? 
+                                    String(attr.thresh).padStart(3, '0') : String(attr.thresh))
                         ])
                     );
                 }
