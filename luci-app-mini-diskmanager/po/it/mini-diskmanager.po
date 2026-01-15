@@ -711,20 +711,20 @@ msgstr "alternativa"
 msgid "Attribute"
 msgstr "Attributo"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
-msgstr "GREZZO"
+msgid "Raw"
+msgstr "Grezzo"
 
-msgid "VALUE"
-msgstr "VALORE"
+msgid "Value"
+msgstr "Valore"
 
-msgid "WORST"
-msgstr "PEGGIORE"
+msgid "Worst"
+msgstr "Peggiore"
 
-msgid "THRESH"
-msgstr "SOGLIA"
+msgid "Thresh"
+msgstr "Soglia"
 
 msgid "Value"
 msgstr "Valore"

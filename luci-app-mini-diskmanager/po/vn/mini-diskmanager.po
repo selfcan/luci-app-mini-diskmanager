@@ -708,20 +708,20 @@ msgstr "thay thế"
 msgid "Attribute"
 msgstr "Thuộc tính"
 
-msgid "ID"
+msgid "Id"
 msgstr "ID"
 
-msgid "RAW"
-msgstr "THÔNGTIN"
+msgid "Raw"
+msgstr "Thôngtin"
 
-msgid "VALUE"
-msgstr "GIÁTRỊ"
+msgid "Value"
+msgstr "Giátrị"
 
-msgid "WORST"
-msgstr "TỆNHẤT"
+msgid "Worst"
+msgstr "Tệnhất"
 
-msgid "THRESH"
-msgstr "NGƯỠNG"
+msgid "Thresh"
+msgstr "Ngưỡng"
 
 msgid "Value"
 msgstr "Giá trị"

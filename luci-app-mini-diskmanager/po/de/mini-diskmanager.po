@@ -714,20 +714,20 @@ msgstr "Alternative"
 msgid "Attribute"
 msgstr "Attribut"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
-msgstr "RAW"
+msgid "Raw"
+msgstr "Raw"
 
-msgid "VALUE"
-msgstr "WERT"
+msgid "Value"
+msgstr "Wert"
 
-msgid "WORST"
-msgstr "SCHLECHTESTER"
+msgid "Worst"
+msgstr "Schlechtester"
 
-msgid "THRESH"
-msgstr "SCHWELLE"
+msgid "Thresh"
+msgstr "Schwelle"
 
 msgid "Value"
 msgstr "Wert"

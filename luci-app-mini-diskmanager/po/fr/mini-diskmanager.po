@@ -774,20 +774,20 @@ msgstr "alternative"
 msgid "Attribute"
 msgstr "Attribut"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
-msgstr "BRUT"
+msgid "Raw"
+msgstr "Brut"
 
-msgid "VALUE"
-msgstr "VALEUR"
+msgid "Value"
+msgstr "Valeur"
 
-msgid "WORST"
-msgstr "PIRE"
+msgid "Worst"
+msgstr "Pire"
 
-msgid "THRESH"
-msgstr "SEUIL"
+msgid "Thresh"
+msgstr "Seuil"
 
 msgid "Value"
 msgstr "Valeur"

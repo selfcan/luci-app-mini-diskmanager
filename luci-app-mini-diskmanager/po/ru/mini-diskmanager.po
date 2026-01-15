@@ -711,20 +711,20 @@ msgstr "альтернатива"
 msgid "Attribute"
 msgstr "Атрибут"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
-msgstr "СЫРОЙ"
+msgid "Raw"
+msgstr "Сырой"
 
-msgid "VALUE"
-msgstr "ЗНАЧЕНИЕ"
+msgid "Value"
+msgstr "Значение"
 
-msgid "WORST"
-msgstr "ХУДШЕЕ"
+msgid "Worst"
+msgstr "Худшее"
 
-msgid "THRESH"
-msgstr "ПОРОГ"
+msgid "Thresh"
+msgstr "Порог"
 
 msgid "Value"
 msgstr "Значение"

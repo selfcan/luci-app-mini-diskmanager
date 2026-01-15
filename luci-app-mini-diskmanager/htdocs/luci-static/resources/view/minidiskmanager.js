@@ -866,6 +866,105 @@ return view.extend({
         }).catch(() => null);
     },
 
+    getSmartDeviceInfo: function(device) {
+        const devicePath = '/dev/' + device;
+        const diskType = this.getDiskType(device);
+
+        if (diskType === 'nvme') {
+            return L.resolveDefault(fs.exec('/usr/sbin/nvme', ['id-ctrl', devicePath]), null)
+                .then(res => {
+                    if (res && res.code === 0) {
+                        const lines = res.stdout.split('\n');
+                        const info = {};
+                        
+                        for (let line of lines) {
+                            if (line.includes('mn ')) {
+                                const match = line.match(/mn\s*:\s*(.+)/i);
+                                if (match) info.model = match[1].trim();
+                            }
+                            if (line.includes('sn ')) {
+                                const match = line.match(/sn\s*:\s*(.+)/i);
+                                if (match) info.serial = match[1].trim();
+                            }
+                            if (line.includes('fr ')) {
+                                const match = line.match(/fr\s*:\s*(.+)/i);
+                                if (match) info.firmware = match[1].trim();
+                            }
+                        }
+                        return info;
+                    }
+                    return null;
+                })
+                .catch(() => null);
+        } else {
+            // SATA/ATA
+            const attempts = [
+                ['-i', devicePath],
+                ['-i', '-d', 'sat', devicePath],
+                ['-i', '-d', 'ata', devicePath]
+            ];
+
+            let sequence = Promise.resolve(null);
+            for (let i = 0; i < attempts.length; i++) {
+                (function(args) {
+                    sequence = sequence.then(function(found) {
+                        if (found) return found;
+                        return L.resolveDefault(fs.exec('/usr/sbin/smartctl', args), null)
+                            .then(res => {
+                                if (!res || res.code !== 0) return null;
+                                
+                                const lines = res.stdout.split('\n');
+                                const info = {};
+                                
+                                for (let line of lines) {
+                                    if (line.includes('Device Model:') || line.includes('Model Number:') || line.includes('Product:')) {
+                                        const match = line.match(/(?:Device Model|Model Number|Product):\s*(.+)/i);
+                                        if (match) info.model = match[1].trim();
+                                    }
+                                    if (line.includes('Serial Number:') || line.includes('Serial number:')) {
+                                        const match = line.match(/Serial [Nn]umber:\s*(.+)/i);
+                                        if (match) info.serial = match[1].trim();
+                                    }
+                                    if (line.includes('Firmware Version:') || line.includes('Revision:')) {
+                                        const match = line.match(/(?:Firmware Version|Revision):\s*(.+)/i);
+                                        if (match) info.firmware = match[1].trim();
+                                    }
+                                    if (line.includes('User Capacity:')) {
+                                        const match = line.match(/User Capacity:\s*(.+)/i);
+                                        if (match) info.capacity = match[1].trim();
+                                    }
+                                    if (line.includes('Sector Size:')) {
+                                        const match = line.match(/Sector Size:\s*(.+)/i);
+                                        if (match) info.sectorSize = match[1].trim();
+                                    }
+                                    if (line.includes('Rotation Rate:')) {
+                                        const match = line.match(/Rotation Rate:\s*(.+)/i);
+                                        if (match) info.rotationRate = match[1].trim();
+                                    }
+                                    if (line.includes('Form Factor:')) {
+                                        const match = line.match(/Form Factor:\s*(.+)/i);
+                                        if (match) info.formFactor = match[1].trim();
+                                    }
+                                    if (line.includes('ATA Version is:')) {
+                                        const match = line.match(/ATA Version is:\s*(.+)/i);
+                                        if (match) info.ataVersion = match[1].trim();
+                                    }
+                                    if (line.includes('SATA Version is:')) {
+                                        const match = line.match(/SATA Version is:\s*(.+)/i);
+                                        if (match) info.sataVersion = match[1].trim();
+                                    }
+                                }
+                                
+                                return Object.keys(info).length > 0 ? info : null;
+                            });
+                    });
+                })(attempts[i]);
+            }
+            
+            return sequence;
+        }
+    },
+
     getDiskType: function(device) {
         if (device.startsWith('nvme')) {
             return 'nvme';
@@ -3191,7 +3290,13 @@ return view.extend({
             ])
         ]);
 
-        this.getDetailedSmartInfo(this.selectedDisk).then(smartData => {
+        Promise.all([
+            this.getDetailedSmartInfo(this.selectedDisk),
+            this.getSmartDeviceInfo(this.selectedDisk)
+        ]).then(results => {
+            const smartData = results[0];
+            const deviceInfo = results[1];
+            
             if (!smartData) {
                 ui.showModal(_('S.M.A.R.T. Status') + ' - ' + devicePath, [
                     E('div', {'class': 'cbi-section'}, [
@@ -3209,6 +3314,93 @@ return view.extend({
             }
 
             let content = [];
+            
+            if (deviceInfo && Object.keys(deviceInfo).length > 0) {
+                let deviceInfoRows = [];
+                
+                if (deviceInfo.serial) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Serial Number') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.serial)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.firmware) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Firmware') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.firmware)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.capacity) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Capacity') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.capacity)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.sectorSize) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Sector Size') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.sectorSize)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.rotationRate) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Rotation Rate') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.rotationRate)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.formFactor) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('Form Factor') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.formFactor)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.sataVersion) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('SATA Version') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.sataVersion)
+                        ])
+                    );
+                }
+                
+                if (deviceInfo.ataVersion) {
+                    deviceInfoRows.push(
+                        E('div', {'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px'}, [
+                            E('span', {}, _('ATA Version') + ':'),
+                            E('span', {'style': 'font-weight:500'}, deviceInfo.ataVersion)
+                        ])
+                    );
+                }
+                
+                if (deviceInfoRows.length > 0) {
+                    content.push(
+                        E('div', {'class': 'ifacebox', 'style': 'margin:.25em 0 1em 0;width:100%'}, [
+                            E('div', {'class': 'ifacebox-head', 'style': 'font-weight:bold;background:#f8f8f8;padding:8px'}, [
+                                deviceInfo.model || _('Device Information')
+                            ]),
+                            E('div', {'class': 'ifacebox-body', 'style': 'padding:8px'}, deviceInfoRows)
+                        ])
+                    );
+                }
+            }
 
             // NVMe
             if (smartData.type === 'nvme') {
@@ -3287,7 +3479,7 @@ return view.extend({
                 // NVMe
                 let nvmeTable = E('table', {
                     'class': 'table',
-                    'style': 'width: 100%;'
+                    'style': 'width: 100%; font-size: 12px;'
                 }, [
                     E('tr', {'class': 'tr table-titles'}, [
                         E('th', {'class': 'th left', 'style': 'width: 60%;'}, _('Attribute')),
@@ -3315,7 +3507,7 @@ return view.extend({
                 }
 
                 content.push(
-                    E('div', {'style': 'max-height: 60vh; min-height: 500px; overflow-y: auto;'}, [
+                    E('div', {'style': 'max-height: 45vh !important; overflow-y: auto !important;'}, [
                         nvmeTable
                     ])
                 );
@@ -3458,15 +3650,15 @@ return view.extend({
                 // SATA
                 let smartAttrsTable = E('table', {
                     'class': 'table',
-                    'style': 'width: 100%;'
+                    'style': 'width: 100%; font-size: 12px;'
                 }, [
                     E('tr', {'class': 'tr table-titles'}, [
-                        E('th', {'class': 'th right'}, _('ID')),
+                        E('th', {'class': 'th right'}, _('Id')),
                         E('th', {'class': 'th left'}, _('Attribute')),
-                        E('th', {'class': 'th left'}, _('RAW')),
-                        E('th', {'class': 'th left'}, _('VALUE')),
-                        E('th', {'class': 'th left'}, _('WORST')),
-                        E('th', {'class': 'th left'}, _('THRESH'))
+                        E('th', {'class': 'th left'}, _('Raw')),
+                        E('th', {'class': 'th left'}, _('Value')),
+                        E('th', {'class': 'th left'}, _('Worst')),
+                        E('th', {'class': 'th left'}, _('Thresh'))
                     ])
                 ]);
 
@@ -3519,7 +3711,7 @@ return view.extend({
                 }
 
                 content.push(
-                    E('div', {'style': 'max-height: 500px; overflow-y: auto;'}, [
+                    E('div', {'style': 'max-height: 45vh !important; overflow-y: auto !important;'}, [
                         smartAttrsTable
                     ])
                 );

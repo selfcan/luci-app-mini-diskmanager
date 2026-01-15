@@ -708,19 +708,19 @@ msgstr "替代"
 msgid "Attribute"
 msgstr "属性"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
+msgid "Raw"
 msgstr "原始值"
 
-msgid "VALUE"
+msgid "Value"
 msgstr "当前值"
 
-msgid "WORST"
+msgid "Worst"
 msgstr "最差值"
 
-msgid "THRESH"
+msgid "Thresh"
 msgstr "阈值"
 
 msgid "Value"

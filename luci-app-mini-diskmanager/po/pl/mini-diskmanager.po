@@ -723,26 +723,23 @@ msgstr "alternatywnie"
 msgid "Attribute"
 msgstr "Atrybut"
 
-msgid "ID"
-msgstr "ID"
+msgid "Id"
+msgstr "Id"
 
-msgid "RAW"
-msgstr "RAW"
+msgid "Raw"
+msgstr "Raw"
 
-msgid "VALUE"
-msgstr "WARTOŚĆ"
+msgid "Worst"
+msgstr "Najgorszy"
 
-msgid "WORST"
-msgstr "NAJGORSZY"
-
-msgid "THRESH"
-msgstr "PRÓG"
+msgid "Thresh"
+msgstr "Próg"
 
 msgid "Value"
 msgstr "Wartość"
 
 msgid "NVMe S.M.A.R.T. Health Status"
-msgstr "Status zdrowia NVMe S.M.A.R.T."
+msgstr "Status zdrowia NVMe (S.M.A.R.T.)"
 
 msgid "OK"
 msgstr "OK"
