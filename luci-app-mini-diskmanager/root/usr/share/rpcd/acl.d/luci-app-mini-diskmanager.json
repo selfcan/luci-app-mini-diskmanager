@@ -9,6 +9,7 @@
 				]
 			},
 			"cgi-io": ["exec"],
+			"uci": [ "mdmconfig" ],
 			"file": {
 				"/dev": ["list"],
 				"/proc/mounts": ["read"],
@@ -21,6 +22,8 @@
 				"/tmp/diskop.pid": ["read"],
 				"/tmp/diskop.result": ["read"],
 				"/tmp/diskop.log": ["read"],
+				
+				"/etc/mdmconfig": [ "read" ],
 
 				"/usr/bin/lsblk -J -b -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,MODEL /dev/*": ["exec"],
 				"/usr/bin/lsblk -J -b -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,LABEL,UUID,PARTTYPENAME /dev/*": ["exec"],
@@ -75,11 +78,14 @@
 				]
 			},
 			"cgi-io": ["exec"],
+			"uci": [ "mdmconfig" ],
 			"file": {
 				"/sys/block/*/device/rescan": ["write"],
 				"/tmp/mini-diskmanager.pid": ["write"],
 				"/tmp/mini-diskmanager.result": ["write"],
 				"/tmp/mini-diskmanager.log": ["write"],
+				
+				"/etc/mdmconfig": ["write"],
 
 				"/sbin/parted /dev/* mklabel *": ["exec"],
 				"/sbin/parted /dev/* mkpart *": ["exec"],
