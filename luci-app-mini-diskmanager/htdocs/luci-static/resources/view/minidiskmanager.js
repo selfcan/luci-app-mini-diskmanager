@@ -3685,7 +3685,7 @@ return view.extend({
                             E('div', {'style': 'text-align: left;'}, [
                                 powerOnTimeFormatted,
                                 E('span', {'style': 'color: var(--text-color-secondary); margin-left: 8px;'}, 
-                                    '(' + powerOnHours + ' ' + _('h') + ')')
+                                    '(' + powerOnHours + ' ' + _('hours') + ')')
                             ])
                         ])
                     ]),
