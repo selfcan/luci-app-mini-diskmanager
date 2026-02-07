@@ -21,7 +21,7 @@ LuCI JS Mini Disk Manager. Interface for simple disk/partition management from O
 > - Ext2/Ext3/Ext4
 > - F2FS 
 > - Swap
->   
+> - BTRFS
 > - FAT16/FAT32
 > - NTFS
 > - exFAT
